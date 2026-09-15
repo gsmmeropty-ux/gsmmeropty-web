@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GsmmeroPTY — Pay</title>
+<style>
+:root{--card:#151c27;--line:#2a3648;--txt:#e8eef6;--mut:#8ea0b5;--acc:#3d9cf0;--ok:#3ecf8e;--yt:#ff0000;--tg:#229ed9;--bn:#f3ba2f}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#0b1016;color:var(--txt)}
+.wrap{max-width:980px;margin:0 auto;padding:16px 12px 40px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.brandline a{color:#fff;text-decoration:none;font-weight:800}
+.langs button{border:1px solid var(--line);background:#101820;color:var(--txt);border-radius:8px;padding:6px 8px;font-size:12px;cursor:pointer}
+.langs button.on{background:var(--acc);color:#062033;font-weight:700}
+.grid{display:grid;grid-template-columns:1fr 1.15fr;gap:12px}@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+h1{font-size:18px;margin:0 0 10px}h2{font-size:15px;margin:0 0 8px}p,li{color:#c5d2e0;font-size:14px;line-height:1.5}
+label{display:block;font-size:12px;color:var(--mut);margin:10px 0 6px}
+input{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:#101820;color:var(--txt);font-size:15px}
+.due{font-size:34px;font-weight:800}.due span{font-size:14px;color:var(--bn)}
+.qrbox{background:#fff;border-radius:12px;padding:14px;text-align:center}.qrbox img{width:220px;height:220px}
+.addr{word-break:break-all;color:var(--bn);font-weight:700;font-size:13px;margin-top:6px}
+.box{background:#101820;border-radius:10px;padding:10px 12px;margin-top:10px}.box b{color:var(--bn);font-size:16px}
+.copy{float:right;border:0;background:#243044;color:#fff;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:12px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{border:0;border-radius:10px;padding:11px 14px;font-size:14px;font-weight:700;text-decoration:none;cursor:pointer;display:inline-block}
+.b1{background:var(--bn);color:#111}.b2{background:var(--tg);color:#fff}
+.note{font-size:12px;color:var(--mut)}.warn{color:#ffb14a;font-size:12px;margin-top:8px}.ok{color:var(--ok)}.err{color:#ff8080}
+.steps{margin:10px 0 0;padding-left:18px}
+.foot{text-align:center;margin-top:16px;font-size:12px;color:var(--mut)}.foot a{color:#9fd4ff;text-decoration:none}
+</style></head><body>
+<div class="wrap">
+<div class="top"><div class="brandline"><a href="index.html">← GsmmeroPTY</a></div><div class="langs" id="langs"></div></div>
+<div class="grid">
+<div class="card">
+<h2 id="t_left_h">Order</h2>
+<div class="due" id="due">10.00 <span>USDT</span></div>
+<p class="note" id="t_left_n"></p>
+<label id="t_email"></label><input id="email" type="email" placeholder="you@gmail.com" />
+<label id="t_item"></label><input id="item" type="text" />
+<label id="t_amt"></label><input id="amt" type="number" min="1" step="0.01" value="10" />
+<div class="row">
+<button class="btn b1" type="button" onclick="makeOrder()" id="t_btn_order"></button>
+<a class="btn b2" href="https://t.me/GsmmeroPTY" target="_blank">Telegram</a>
+</div>
+<p id="msg" class="note" style="margin-top:10px"></p>
+</div>
+<div class="card">
+<h1>PAY USDT TRC20</h1>
+<div class="qrbox"><img alt="USDT TRC20 QR" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=TFptwAVKSrJw3AgRmVCd6uegVPmsEtiPkM" /></div>
+<p class="note" style="text-align:center;margin:8px 0 0" id="t_scan"></p>
+<div class="box"><button class="copy" type="button" onclick="copyTxt('TFptwAVKSrJw3AgRmVCd6uegVPmsEtiPkM')">Copy</button>
+<div class="note">NETWORK</div><b>TRON (TRC20)</b>
+<div class="addr">TFptwAVKSrJw3AgRmVCd6uegVPmsEtiPkM</div>
+<p class="warn" id="t_warn"></p></div>
+<div class="box"><button class="copy" type="button" onclick="copyTxt('125969320')">Copy</button>
+<div class="note">BINANCE UID</div><b>125969320</b><div class="note">GsmmeroPTY</div></div>
+<div class="box"><button class="copy" type="button" onclick="copyTxt(document.getElementById('ref').textContent)">Copy</button>
+<div class="note" id="t_ref_l">ORDER NOTE</div><b id="ref">------</b><div class="note" id="t_ref_n"></div></div>
+<ol class="steps" id="t_steps"></ol>
+</div></div>
+<div class="foot"><a href="index.html">Home</a> · <a href="https://t.me/GsmmeroPTY">Telegram</a></div>
+</div>
+<script>
+const ADDR="TFptwAVKSrJw3AgRmVCd6uegVPmsEtiPkM";
+const T={en:{name:"English",left_h:"Order",left_n:"Send USDT TRC20, then screenshot + order note on Telegram.",email:"Your email",item:"Which video / file",amt:"USDT amount",btn_order:"Create order note",scan:"Scan or copy the address",warn:"USDT TRC20 only. Wrong network = lost funds.",ref_l:"ORDER NOTE",ref_n:"Send this number with the screenshot. TRC20 has no memo.",steps:["Send USDT TRC20 to the address.","Or pay inside Binance to UID 125969320.","Create the order note first.","Screenshot + note to Telegram."],need:"Need a valid email.",done:"Note created."},zh:{name:"中文",left_h:"订单",left_n:"USDT TRC20 转完，截图+订单号发 Telegram。",email:"邮箱",item:"视频 / 文件",amt:"USDT",btn_order:"生成订单号",scan:"扫码或复制地址",warn:"只收 TRC20。发错网络会丢币。",ref_l:"订单号",ref_n:"和截图一起发 Telegram。",steps:["转 USDT TRC20。","或 UID 125969320。","先生成订单号。","Telegram 发截图。"],need:"填邮箱。",done:"已生成。"},es:{name:"Español",left_h:"Pedido",left_n:"Envía USDT TRC20 y captura.",email:"Correo",item:"Video",amt:"USDT",btn_order:"Crear nota",scan:"Escanea o copia",warn:"Solo TRC20.",ref_l:"NOTA",ref_n:"Manda el número con la captura.",steps:["USDT TRC20.","O UID 125969320.","Crea nota.","Telegram."],need:"Correo.",done:"Listo."},hi:{name:"हिन्दी",left_h:"Order",left_n:"USDT TRC20 then Telegram.",email:"Email",item:"Video",amt:"USDT",btn_order:"Note",scan:"Scan or copy",warn:"TRC20 only.",ref_l:"NOTE",ref_n:"Send with screenshot.",steps:["TRC20.","UID.","Note.","Telegram."],need:"Email.",done:"OK."},ar:{name:"العربية",left_h:"الطلب",left_n:"USDT TRC20 ثم Telegram.",email:"بريد",item:"فيديو",amt:"USDT",btn_order:"رقم",scan:"امسح",warn:"TRC20 فقط.",ref_l:"رقم",ref_n:"مع اللقطة.",steps:["TRC20.","UID.","رقم.","Telegram."],need:"بريد.",done:"تم."}};
+function apply(lang){const x=T[lang]||T.en;document.documentElement.lang=lang;document.documentElement.dir=lang==="ar"?"rtl":"ltr";localStorage.setItem("gsm_lang",lang);["left_h","left_n","email","item","amt","btn_order","scan","warn","ref_l","ref_n"].forEach(k=>{const el=document.getElementById("t_"+k);if(el)el.textContent=x[k];});document.getElementById("t_steps").innerHTML=x.steps.map(s=>"<li>"+s+"</li>").join("");document.querySelectorAll("#langs button").forEach(b=>b.classList.toggle("on",b.dataset.lang===lang));}
+function copyTxt(s){navigator.clipboard.writeText(s);}
+function makeOrder(){const x=T[localStorage.getItem("gsm_lang")||"en"]||T.en;const email=document.getElementById("email").value.trim();const item=document.getElementById("item").value.trim()||"(no title)";const amt=parseFloat(document.getElementById("amt").value||"10");const msg=document.getElementById("msg");if(!email||email.indexOf("@")<0){msg.className="err";msg.textContent=x.need;return;}const ref=String(100000+Math.floor(Math.random()*900000));document.getElementById("ref").textContent=ref;document.getElementById("due").innerHTML=amt.toFixed(2)+' <span>USDT</span>';window.location.href="mailto:gsmmeropty@gmail.com?subject="+encodeURIComponent("Order "+ref)+"&body="+["Email: "+email,"File: "+item,"Amount: "+amt.toFixed(2)+" USDT TRC20","Address: "+ADDR,"Note: "+ref].join("%0A");msg.className="ok";msg.textContent=x.done+" #"+ref;}
+(function(){const box=document.getElementById("langs");["en","zh","es","hi","ar"].forEach(k=>{const b=document.createElement("button");b.type="button";b.dataset.lang=k;b.textContent=T[k].name;b.onclick=function(){apply(k)};box.appendChild(b);});const n=(navigator.language||"en").toLowerCase();apply(localStorage.getItem("gsm_lang")||(n.startsWith("zh")?"zh":n.startsWith("es")?"es":n.startsWith("ar")?"ar":"en"));})();
+</script></body></html>
