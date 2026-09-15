@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GsmmeroPTY — Files</title>
+<style>
+  :root { --card:#151c27; --line:#2a3648; --txt:#e8eef6; --mut:#8ea0b5; --acc:#3d9cf0; --ok:#3ecf8e; --yt:#ff0000; --tg:#229ed9; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:linear-gradient(165deg,#090d12,#152033 55%,#0b1016); color:var(--txt); }
+  .wrap { max-width:820px; margin:0 auto; padding:22px 16px 48px; }
+  .brand { display:flex; gap:12px; align-items:center; margin-bottom:14px; }
+  .logo { width:48px; height:48px; border-radius:12px; background:linear-gradient(135deg,#ff3b30,#ff8a3d); display:flex; align-items:center; justify-content:center; font-weight:800; color:#fff; }
+  h1 { font-size:22px; margin:0; }
+  .sub { color:var(--mut); font-size:14px; margin:4px 0 0; }
+  .social { display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 0; }
+  .social a { text-decoration:none; color:#fff; padding:10px 14px; border-radius:10px; font-size:13px; font-weight:700; }
+  .yt { background:var(--yt); } .tg { background:var(--tg); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:14px; }
+  h2 { font-size:16px; margin:0 0 8px; }
+  p, li { color:#c5d2e0; font-size:14px; line-height:1.55; }
+  label { display:block; font-size:12px; color:var(--mut); margin:10px 0 6px; }
+  input, textarea, select { width:100%; padding:11px 12px; border-radius:10px; border:1px solid var(--line); background:#101820; color:var(--txt); font-size:15px; }
+  textarea { min-height:88px; resize:vertical; }
+  .row { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+  button, .btn { border:0; border-radius:10px; padding:11px 16px; font-size:14px; font-weight:700; cursor:pointer; text-decoration:none; display:inline-block; }
+  .b1 { background:var(--acc); color:#062033; }
+  .b3 { background:var(--ok); color:#062016; }
+  .note { font-size:12px; color:var(--mut); line-height:1.6; }
+  .ok { color:var(--ok); } .err { color:#ff8080; }
+  .foot { text-align:center; color:var(--mut); font-size:12px; margin-top:10px; line-height:1.6; }
+  .foot a { color:#9fd4ff; text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="brand">
+      <div class="logo">GSM</div>
+      <div>
+        <h1>GsmmeroPTY</h1>
+        <p class="sub">YouTube repair files · No account needed</p>
+      </div>
+    </div>
+    <div class="social">
+      <a class="yt" href="https://www.youtube.com/@GsmmeroPTY" target="_blank" rel="noopener">YouTube GsmmeroPTY</a>
+      <a class="tg" href="https://t.me/GsmmeroPTY" target="_blank" rel="noopener">Telegram @GsmmeroPTY</a>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Files from the videos</h2>
+    <p>Watch the video, then order here. I send the file to your email after payment. No website registration.</p>
+    <p class="note">First pack coming soon. You can already write which video you need.</p>
+  </div>
+  <div class="card">
+    <h2>Order by email or contact me</h2>
+    <label>Your email</label>
+    <input id="email" type="email" placeholder="you@gmail.com" />
+    <label>Which video / file</label>
+    <input id="item" type="text" placeholder="Video title" />
+    <label>Pay method</label>
+    <select id="pay">
+      <option value="PayPal">PayPal (gsmmeropty@gmail.com)</option>
+      <option value="USDT">USDT (ask on Telegram)</option>
+      <option value="Telegram">Contact on Telegram first</option>
+    </select>
+    <label>Note</label>
+    <textarea id="note" placeholder="YouTube name, country..."></textarea>
+    <div class="row">
+      <button class="b1" type="button" onclick="mailOrder()">Send order email</button>
+      <a class="btn b3" href="https://t.me/GsmmeroPTY" target="_blank">Telegram @GsmmeroPTY</a>
+    </div>
+    <p id="msg" class="note" style="margin-top:10px"></p>
+    <p class="note">Email goes to gsmmeropty@gmail.com. If the mail app does not open, use Telegram.</p>
+  </div>
+  <div class="card">
+    <h2>How it works</h2>
+    <ol>
+      <li>No account.</li>
+      <li>Email or Telegram.</li>
+      <li>PayPal / USDT after I reply.</li>
+      <li>I share Google Drive only to your email. The txt includes YouTube and Telegram.</li>
+    </ol>
+  </div>
+  <div class="foot">
+    Calidonia, Panamá<br>
+    <a href="https://www.youtube.com/@GsmmeroPTY">youtube.com/@GsmmeroPTY</a><br>
+    <a href="https://t.me/GsmmeroPTY">t.me/GsmmeroPTY</a> · gsmmeropty@gmail.com
+  </div>
+</div>
+<script>
+function mailOrder(){
+  var email=document.getElementById("email").value.trim();
+  var item=document.getElementById("item").value.trim()||"(no title)";
+  var pay=document.getElementById("pay").value;
+  var note=document.getElementById("note").value.trim();
+  var msg=document.getElementById("msg");
+  if(!email || email.indexOf("@")<0){ msg.className="err"; msg.textContent="Need a valid email."; return; }
+  var body=["New file order","Buyer email: "+email,"File: "+item,"Pay: "+pay,"Note: "+(note||"-")].join("%0A");
+  window.location.href="mailto:gsmmeropty@gmail.com?subject="+encodeURIComponent("GsmmeroPTY order: "+item)+"&body="+body;
+  msg.className="ok";
+  msg.textContent="Email window opened. If not, write Telegram @GsmmeroPTY.";
+}
+</script>
+</body>
+</html>
